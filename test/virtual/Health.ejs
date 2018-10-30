@@ -1,0 +1,32 @@
+{
+	"port": "8080",
+	"protocol": "http",
+	"stubs": [
+		{
+			"responses": [
+				{
+					"is": {
+						"statusCode": 200,
+						"body": "{\"status\": \"UP\"}"
+					}
+				}
+			],
+			"predicates": [
+				{
+					"and": [
+						{
+							"equals": {
+								"method": "GET"
+							}
+						},
+						{
+							"contains": {
+								"path": "/reactuiboilerplate/v1/health"
+							}
+						}
+					]
+				}
+			]
+		}
+	]
+}

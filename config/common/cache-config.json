@@ -1,0 +1,23 @@
+{
+	"cachePath":{
+		"local_path" : "diskCache",
+		"env_path" : "diskCache"
+	},
+	"cacheMode":{
+		"option" : "multiCache"
+	},
+	"cacheMax":{
+		"inMemory" : {
+			"maxsize":4700
+		},
+		"diskcache" : {
+			"maxsize":5e+9
+		}
+	},
+	"cachePreventfill":{
+		"preventfill" : false
+	},
+	"cacheSchedule":{
+		"scheduleInterval" : "0 */15 * * *"
+	}
+}

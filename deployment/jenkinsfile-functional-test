@@ -1,0 +1,51 @@
+def label = "nodejs-build-${UUID.randomUUID().toString()}"
+podTemplate(
+	label: label,
+	name: label,
+	imagePullSecrets: ['neugcstieacr01'],
+	containers: [
+		containerTemplate(
+			name: label,
+			image: 'neugcstieacr01.azurecr.io/baseimg/vcc-gcs-functional-test-zulu8-nodejs6-xenial:v1',
+			command: 'cat',
+			ttyEnabled: true,
+			alwaysPullImage: true
+		)
+	],
+	volumes: [
+		hostPathVolume(mountPath: '/var/run/docker.sock', hostPath: '/var/run/docker.sock')
+	]
+){
+	properties([
+		[$class: 'BuildDiscarderProperty', strategy: [$class: 'LogRotator', numToKeepStr: '10']],
+		disableConcurrentBuilds()
+	])
+	node(label) {
+		container(label) {
+            stage('Clone') {
+				try {
+					dir('reactuiboilerplate') {
+						git branch: 'develop', credentialsId: 'git_creds', url: ''
+						sh 'npm install'
+					}
+				} catch (exc) {
+					currentBuild.result = "FAILURE"
+					throw exc
+				} finally {
+				}
+			}
+			stage ('Configure') {
+				dir('reactuiboilerplate') {
+					try {
+                        sh "ENV_FUNCTIONAL_TEST_URL=https://localhost:8080 npm run uifunctional-test"
+                    } catch (exc) {
+                        currentBuild.result = "FAILURE"
+                        throw exc
+                    } finally {
+                        publishHTML([allowMissing: true, alwaysLinkToLastBuild: true, keepAll: true, reportDir: 'test/functional/reports', reportFiles: '**/index.html', reportName: 'Functional Test Results', reportTitles: 'FunctionalTest'])
+                    }
+				}
+			}
+		}
+	}
+}

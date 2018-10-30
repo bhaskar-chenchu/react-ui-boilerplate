@@ -1,0 +1,39 @@
+def label = "nodejs-build-${UUID.randomUUID().toString()}"
+podTemplate(
+	label: label,
+	name: label,
+	imagePullSecrets: ['neugcstieacr01'],
+	containers: [
+		containerTemplate(
+			name: label,
+			image: 'neugcstieacr01.azurecr.io/node/nodejs-build:v1',
+			command: 'cat',
+			ttyEnabled: true,
+			alwaysPullImage: true
+		)
+	],
+	volumes: [
+		hostPathVolume(mountPath: '/var/run/docker.sock', hostPath: '/var/run/docker.sock')
+	]
+){
+	properties([
+		[$class: 'BuildDiscarderProperty', strategy: [$class: 'LogRotator', numToKeepStr: '10']],
+		disableConcurrentBuilds()
+	])
+	node(label) {
+		container(label) {
+			stage ('Configure') {
+				dir('reactuiboilerplate') {
+					try {
+						git branch: 'develop', credentialsId: 'git_creds', url: ''
+						sh "kubectl --kubeconfig ../kubeconfig -n tie apply -f 'config/env/dev/config.yaml'"
+					} catch (exc) {
+						currentBuild.result = "FAILURE"
+						throw exc
+					} finally {
+					}
+				}
+			}
+		}
+	}
+}

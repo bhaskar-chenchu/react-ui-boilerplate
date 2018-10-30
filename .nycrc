@@ -1,0 +1,21 @@
+{
+	"include": [
+		"src/**/*.js"
+	],
+	"reporter": [
+		"lcov"
+	],
+	"extension": [
+		".js"
+	],
+	"cache": true,
+    "all": true,
+    "check-coverage": false,
+    "report-dir": "./test/unit/reports/coverage",
+	"require": [
+		"babel-register",
+		"./test/unit/utils/helper.js"
+	],
+	"sourceMap": false,
+    "instrument": false
+}

@@ -1,0 +1,11 @@
+{
+    "apps" : [
+    	{
+    		"name":"reactuiboilerplate",
+    		"script":"dist/server-bundle.js",
+    		"env_production" : {
+      			"NODE_ENV": "production"
+    		}
+    	}
+    ]
+}

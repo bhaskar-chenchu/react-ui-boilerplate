@@ -1,0 +1,15 @@
+{
+	"env_app_name": "reactuiboilerplate",
+	"env_config_server_port": 8080,
+	"env_app_context": "reactuiboilerplate",
+	"env_health_api": {
+		"url": "/reactuiboilerplate/v1/health",
+		"timeout": {
+			"server": 1000,
+			"client": 1000,
+			"stream": 1000
+		}
+	},
+	"env_log_location": "${ENV_LOG_LOCATION}",
+	"env_log_level": "${ENV_LOG_LEVEL}"
+}

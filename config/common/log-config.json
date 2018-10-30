@@ -1,0 +1,55 @@
+{
+	"location":"./logs",
+	"accessLogConfig": {
+		"level":"info",
+		"filename": "access.log",
+		"maxsize": "5242880B",
+		"maxfiles": "10"
+	},
+	"fileLogConfig": {
+		"level":"info",
+		"filename": "nodejs-application.log",
+		"maxsize": "5242880",
+		"maxFiles": "10",
+		"json": false
+	},
+	"outboundAccessLogConfig": {
+		"level":"info",
+		"file": "outbound.log",
+		"size": "5120k",
+		"keep": "10",
+		"timestamp":true,
+		"json": false
+	},
+	"consoleLogConfig": {
+		"level": "info",
+		"handleExceptions": true,
+		"json": false,
+		"colorize": true
+	},
+	"processLogConfig": {
+		"level":"info",
+		"file": "process.log",
+		"size": "5120k",
+		"keep": "10",
+		"timestamp":true,
+		"json": false
+	},
+	"speedindexLogConfig": {
+		"level":"info",
+		"file": "speedindex.log",
+		"size": "5120k",
+		"keep": "10",
+		"timestamp":true,
+		"json": false
+	},
+	"threadLogConfig": {
+		"level":"info",
+		"file": "thread.log",
+		"size": "5120k",
+		"keep": "10",
+		"timestamp":true,
+		"json": false
+	},
+	"enableConsoleLog":true
+}

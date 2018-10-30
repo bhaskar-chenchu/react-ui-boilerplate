@@ -1,0 +1,112 @@
+def label = "nodejs-build-${UUID.randomUUID().toString()}"
+podTemplate(
+	label: label,
+	name: label,
+	imagePullSecrets: ['neugcstieacr01'],
+	containers: [
+		containerTemplate(
+			name: label,
+			image: 'neugcstieacr01.azurecr.io/node/nodejs-build:v1',
+			command: 'cat',
+			ttyEnabled: true,
+			alwaysPullImage: true
+		)
+	],
+	volumes: [
+		hostPathVolume(mountPath: '/var/run/docker.sock', hostPath: '/var/run/docker.sock')
+	]
+){
+	properties([
+		[$class: 'BuildDiscarderProperty', strategy: [$class: 'LogRotator', numToKeepStr: '10']],
+		disableConcurrentBuilds()
+	])
+	node(label) {
+		container(label) {
+			def application = 'dotcom';
+			def module = 'reactuiboilerplate';
+			def tempImageTag = "neugcstieacr01.azurecr.io/digital/temp/${module}";
+			def imageTag = "neugcstieacr01.azurecr.io/digital/${application}/${module}:${env.BUILD_NUMBER}";
+			stage('Clone') {
+				try {
+					dir('reactuiboilerplate') {
+						git branch: 'develop', credentialsId: 'git_creds', url: ''
+						sh 'npm install'
+					}
+				} catch (exc) {
+					currentBuild.result = "FAILURE"
+					throw exc
+				} finally {
+				}
+			}
+			stage('Unit Test') {
+				dir('reactuiboilerplate') {
+					try {
+						sh 'npm run unit-test'
+					} catch (exc) {
+						currentBuild.result = "FAILURE"
+						throw exc
+					} finally {
+						// sh 'npm run unit-test-report'
+						publishHTML([allowMissing: true, alwaysLinkToLastBuild: true, keepAll: true, reportDir: 'test/unit/reports/coverage/lcov-report', reportFiles: 'index.html', reportName: 'Unit Test Coverage', reportTitles: 'Coverage'])
+						publishHTML([allowMissing: true, alwaysLinkToLastBuild: true, keepAll: true, reportDir: 'test/unit/reports/status', reportFiles: '**/index.html', reportName: 'Unit Test Status', reportTitles: 'Status'])
+					}
+				}
+			}
+			stage('SonarQube Analysis') {
+				dir('reactuiboilerplate') {
+					try {
+						sh 'npm run sonarqube-scanner -Dsonar.host.url=http://104.41.231.251:9000'
+					} catch (exc) {
+						currentBuild.result = "FAILURE"
+						throw exc
+					}
+				}
+			}
+			stage ('Build') {
+				dir('reactuiboilerplate') {
+					try {
+						sh 'npm run build-prod'
+					} catch (exc) {
+						currentBuild.result = "FAILURE"
+						throw exc
+					} finally {
+					}
+				}
+			}
+			stage('Docker Build') {
+				dir('reactuiboilerplate') {
+					try {
+						sh 'npm run pack'
+						withDockerRegistry([credentialsId: 'acr_prod', url: 'https://neugcstieacr01.azurecr.io']) {
+							sh "sudo docker build --no-cache -f deployment/Dockerfile -t ${module} ."
+							sh "docker tag ${module} '${tempImageTag}'"
+							sh "docker push '${tempImageTag}'"
+						}
+					} catch (exc) {
+						currentBuild.result = "FAILURE"
+						throw exc
+					} finally {
+					}
+				}
+			}
+			stage('Push to ACR') {
+				dir('reactuiboilerplate') {
+					try {
+						sh "docker tag ${module} '${imageTag}'"
+						withDockerRegistry([credentialsId: 'acr_prod', url: 'https://neugcstieacr01.azurecr.io']) {
+							sh "docker push '${imageTag}'"
+						}
+					} catch (exc) {
+						currentBuild.result = "FAILURE"
+						throw exc
+					} finally {
+						withDockerRegistry([credentialsId: 'acr_prod', url: 'https://neugcstieacr01.azurecr.io']) {
+							sh "docker rmi '${imageTag}' -f"
+							sh "docker rmi '${module}' -f"
+						}
+					}
+				}
+			}
+		}
+	}
+}

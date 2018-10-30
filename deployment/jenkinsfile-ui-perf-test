@@ -1,0 +1,52 @@
+def label = "nodejs-build-${UUID.randomUUID().toString()}"
+podTemplate(
+	label: label,
+	name: label,
+	imagePullSecrets: ['prodregistry'],
+	containers: [
+		containerTemplate(
+			name: label,
+			image: 'neugcstieacr01.azurecr.io/baseimg/vcc-gcs-ui-perf-test-bionic:v1',
+			command: 'cat',
+			ttyEnabled: true,
+			alwaysPullImage: true
+		)
+	],
+	volumes: [
+		hostPathVolume(mountPath: '/var/run/docker.sock', hostPath: '/var/run/docker.sock')
+	]
+){
+	properties([
+		[$class: 'BuildDiscarderProperty', strategy: [$class: 'LogRotator', numToKeepStr: '10']],
+		disableConcurrentBuilds()
+	])
+	node(label) {
+		container(label) {
+            stage('Clone') {
+				try {
+					dir('reactuiboilerplate') {
+						git branch: 'develop', credentialsId: 'git_creds', url: ''
+						sh 'npm install'
+					}
+				} catch (exc) {
+					currentBuild.result = "FAILURE"
+					throw exc
+				} finally {
+				}
+			}
+			stage ('UI Perf Test') {
+				dir('reactuiboilerplate') {
+					try {
+                        sh 'npm run ui-perf-test-dev'
+                    } catch (exc) {
+                        currentBuild.result = "FAILURE"
+                        throw exc
+                    } finally {
+                        publishHTML([allowMissing: true, alwaysLinkToLastBuild: true, keepAll: true, reportDir: 'test/performance/reports', reportFiles: '**/index.html', reportName: 'UI Performance Test Result', reportTitles: 'UI Performance Test Report'])
+                        step([$class: 'TapPublisher', discardOldReports: false, enableSubtests: false, failIfNoResults: false, failedTestsMarkBuildAsFailure: false, flattenTapResult: false, includeCommentDiagnostics: false, outputTapToConsole: false, planRequired: false, showOnlyFailures: false, skipIfBuildNotOk: false, stripSingleParents: false, testResults: 'test/performance/reports/**/*.tap', todoIsFailure: false, validateNumberOfTests: false, verbose: true])
+                    }
+				}
+			}
+		}
+	}
+}

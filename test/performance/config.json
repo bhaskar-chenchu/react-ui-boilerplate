@@ -1,0 +1,24 @@
+{
+    "browsertime": {
+		"iterations": 2,
+		"speedIndex" : true,
+		"connectivity": {
+			"profile": "3gfast"
+		},
+		"xvfb": true,
+		"chrome": {
+			"args": [
+				"no-sandbox"
+			]
+		}
+	},
+	"html": {
+		"showAllWaterfallSummary": true
+	},
+	"outputFolder": "test/performance/reports",
+	"mobile": false,
+	"budget": {
+		"configPath": "test/performance/budget.json",
+		"output": "tap"
+	}
+}

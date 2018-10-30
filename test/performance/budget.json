@@ -1,0 +1,31 @@
+{
+	"browsertime.pageSummary": [
+		{
+			"metric":"statistics.visualMetrics.SpeedIndex",
+			"max":1000
+		}
+	],
+	"coach.pageSummary": [],
+	"pagexray.pageSummary": [
+		{
+			"metric": "missingCompression",
+			"max": 0
+		},
+		{
+			"metric": "statistics.timings.SpeedIndex",
+			"max": 3000
+		},
+		{
+			"metric": "contentTypes.css.requests",
+			"max": 10
+		},
+		{
+			"metric": "contentTypes.javascript.requests",
+			"max": 10
+		},
+		{
+			"metric": "contentTypes.image.requests",
+			"max": 120
+		}
+	]
+}
