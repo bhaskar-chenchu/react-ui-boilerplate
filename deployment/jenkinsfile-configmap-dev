@@ -27,7 +27,7 @@ podTemplate(
 					try {
 						//git branch: 'develop', credentialsId: 'git_creds', url: ''
 						checkout scm
-						sh "kubectl --kubeconfig ./gcs-tie-dev-config -n tie apply -f 'config/env/dev/config.yaml'"
+						sh "kubectl --kubeconfig gcs-tie-dev-config -n tie apply -f 'config/env/dev/config.yaml'"
 					} catch (exc) {
 						currentBuild.result = "FAILURE"
 						throw exc
