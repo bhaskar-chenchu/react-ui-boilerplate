@@ -3,6 +3,9 @@ podTemplate(
 	label: label,
 	name: label,
 	imagePullSecrets: ['neugcstieacr01'],
+	envVars: [
+	    envVar(key: 'SONAR_SCANNER_MIRROR', value: 'https://binaries.sonarsource.com/Distribution/sonar-scanner-cli/')
+	],
 	containers: [
 		containerTemplate(
 			name: label,
