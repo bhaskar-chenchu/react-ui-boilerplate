@@ -69,7 +69,7 @@ podTemplate(
 			stage ('Build') {
 				dir('reactuiboilerplate') {
 					try {
-						sh 'npm run build-prod'
+						sh 'npm run build'
 					} catch (exc) {
 						currentBuild.result = "FAILURE"
 						throw exc
