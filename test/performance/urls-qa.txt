@@ -1,1 +1,1 @@
-https://localhost:8080/reactuiboilerplate/v1/page
+https://tie-gcs-aks-qa.northeurope.cloudapp.azure.com/reactuiboilerplate/v1/page
