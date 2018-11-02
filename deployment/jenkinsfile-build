@@ -82,7 +82,7 @@ podTemplate(
 					try {
 						sh 'npm run pack'
 						withDockerRegistry([credentialsId: 'acr_cred', url: 'https://neugcstieacr01.azurecr.io']) {
-							sh "sudo docker build --no-cache -f deployment/Dockerfile -t ${module} ."
+							sh "docker build --no-cache -f deployment/Dockerfile -t ${module} ."
 						}
 					} catch (exc) {
 						currentBuild.result = "FAILURE"
