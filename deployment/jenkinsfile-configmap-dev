@@ -25,7 +25,8 @@ podTemplate(
 			stage ('Configure') {
 				dir('reactuiboilerplate') {
 					try {
-						git branch: 'develop', credentialsId: 'git_creds', url: ''
+						//git branch: 'develop', credentialsId: 'git_creds', url: ''
+						checkout scm
 						sh "kubectl --kubeconfig ../kubeconfig -n tie apply -f 'config/env/dev/config.yaml'"
 					} catch (exc) {
 						currentBuild.result = "FAILURE"
