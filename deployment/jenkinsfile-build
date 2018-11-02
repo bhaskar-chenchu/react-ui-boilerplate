@@ -81,10 +81,8 @@ podTemplate(
 				dir('reactuiboilerplate') {
 					try {
 						sh 'npm run pack'
-						withDockerRegistry([credentialsId: 'acr_prod', url: 'https://neugcstieacr01.azurecr.io']) {
+						withDockerRegistry([credentialsId: 'acr_cred', url: 'https://neugcstieacr01.azurecr.io']) {
 							sh "sudo docker build --no-cache -f deployment/Dockerfile -t ${module} ."
-							sh "docker tag ${module} '${tempImageTag}'"
-							sh "docker push '${tempImageTag}'"
 						}
 					} catch (exc) {
 						currentBuild.result = "FAILURE"
@@ -97,15 +95,15 @@ podTemplate(
 				dir('reactuiboilerplate') {
 					try {
 						sh "docker tag ${module} '${imageTag}'"
-						withDockerRegistry([credentialsId: 'acr_prod', url: 'https://neugcstieacr01.azurecr.io']) {
+						withDockerRegistry([credentialsId: 'acr_cred', url: 'https://neugcstieacr01.azurecr.io']) {
 							sh "docker push '${imageTag}'"
 						}
 					} catch (exc) {
 						currentBuild.result = "FAILURE"
 						throw exc
 					} finally {
-						withDockerRegistry([credentialsId: 'acr_prod', url: 'https://neugcstieacr01.azurecr.io']) {
-							sh "docker rmi '${imageTag}' -f"
+						withDockerRegistry([credentialsId: 'acr_cred', url: 'https://neugcstieacr01.azurecr.io']) {
+							//sh "docker rmi '${imageTag}' -f"
 							sh "docker rmi '${module}' -f"
 						}
 					}
