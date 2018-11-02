@@ -25,7 +25,8 @@ podTemplate(
             stage('Clone') {
 				try {
 					dir('reactuiboilerplate') {
-						git branch: 'develop', credentialsId: 'git_creds', url: ''
+						checkout scm
+						//git branch: 'develop', credentialsId: 'git_creds', url: ''
 						sh 'npm install'
 					}
 				} catch (exc) {
@@ -37,7 +38,7 @@ podTemplate(
 			stage ('Configure') {
 				dir('reactuiboilerplate') {
 					try {
-                        sh "ENV_FUNCTIONAL_TEST_URL=https://localhost:8080 npm run uifunctional-test"
+                        sh "ENV_FUNCTIONAL_TEST_URL=https://tie-gcs-aks-dev.northeurope.cloudapp.azure.com npm run uifunctional-test"
                     } catch (exc) {
                         currentBuild.result = "FAILURE"
                         throw exc
