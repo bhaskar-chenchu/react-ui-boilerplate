@@ -29,7 +29,8 @@ podTemplate(
 			stage('Clone') {
 				try {
 					dir('reactuiboilerplate') {
-						git branch: 'develop', credentialsId: 'git_creds', url: ''
+						//git branch: 'develop', credentialsId: 'git_creds', url: ''
+						checkout scm
 						sh 'npm install'
 					}
 				} catch (exc) {
