@@ -1,13 +1,13 @@
 config:
-  target: 'https://localhost:8080'
+  target: 'https://tie-gcs-aks-dev.northeurope.cloudapp.azure.com'
   http:
     tls:
       rejectUnauthorized: false
   environments:
     dev:
-      target: "https://localhost:8080"
+      target: "https://tie-gcs-aks-dev.northeurope.cloudapp.azure.com"
     qa:
-      target: "https://localhost:8080"
+      target: "https://tie-gcs-aks-qa.northeurope.cloudapp.azure.com"
   phases: 
   - duration: 30
     arrivalRate: 5
