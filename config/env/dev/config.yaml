@@ -5,5 +5,5 @@ metadata:
 data:
   config.yaml: |
     #Add Environment key value pair as below for each env
-    ENV_LOG_LOCATION: "/deployments/logs/reactuiboilerplate"
+    ENV_LOG_LOCATION: "./logs"
     ENV_LOG_LEVEL: "info"
