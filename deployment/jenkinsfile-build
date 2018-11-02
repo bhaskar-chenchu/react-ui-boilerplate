@@ -59,7 +59,7 @@ podTemplate(
 			stage('SonarQube Analysis') {
 				dir('reactuiboilerplate') {
 					try {
-						sh 'npm run sonarqube-scanner -Dsonar.host.url=http://104.41.231.251:9000'
+						//sh 'npm run sonarqube-scanner -Dsonar.host.url=http://104.41.231.251:9000'
 					} catch (exc) {
 						currentBuild.result = "FAILURE"
 						throw exc
