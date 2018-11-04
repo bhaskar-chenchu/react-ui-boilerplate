@@ -1,4 +1,4 @@
-def label = "nodejs-build-${UUID.randomUUID().toString()}"
+def label = "ui-perf-test-${UUID.randomUUID().toString()}"
 podTemplate(
 	label: label,
 	name: label,
