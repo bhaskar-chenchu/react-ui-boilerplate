@@ -1,6 +1,4 @@
 {
-	"browsertime.pageSummary": [],
-	"coach.pageSummary": [],
 	"pagexray.pageSummary": [
 		{
 			"metric": "missingCompression",
