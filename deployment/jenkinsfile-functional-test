@@ -35,7 +35,7 @@ podTemplate(
 				} finally {
 				}
 			}
-			stage ('Configure') {
+			stage ('UI Functional Test') {
 				dir('reactuiboilerplate') {
 					try {
                         sh "ENV_FUNCTIONAL_TEST_URL=https://tie-gcs-aks-dev.northeurope.cloudapp.azure.com npm run uifunctional-test"
