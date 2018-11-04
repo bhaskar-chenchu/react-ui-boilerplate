@@ -1,3 +1,4 @@
+//Used only in local development environment
 var merge = require('webpack-merge');
 var CopyWebpackPlugin = require('copy-webpack-plugin');
 var StatsWriterPlugin = require('webpack-stats-plugin').StatsWriterPlugin;
