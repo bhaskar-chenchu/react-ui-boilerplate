@@ -27,7 +27,7 @@ podTemplate(
 					dir('reactuiboilerplate') {
 						checkout scm
 						//git branch: 'develop', credentialsId: 'git_creds', url: ''
-						sh 'npm install'
+						//sh 'npm install'
 					}
 				} catch (exc) {
 					currentBuild.result = "FAILURE"
