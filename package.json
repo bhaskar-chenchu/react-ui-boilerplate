@@ -8,7 +8,7 @@
 		"unit-test-report": "node test/unit/utils/json-to-html.js",
 		"pact-publish": "ENV_PACT_BROKER_URL=http://10.10.10.10 node test/unit/utils/pact-publish.js",
 		"pact-verify-provider": "ENV_PACT_BROKER_URL=http://10.10.10.10 ./node_modules/.bin/mocha --reporter mochawesome --reporter-options reportDir=test/cdc/reports,enableCode=false,reportFilename=index,reportPageTitle='CDC Pact Verify',inlineAssets=true --require ./test/unit/utils/helper.js --timeout 10000 test/cdc/provider.spec.js",
-		"sonarqube-scanner": "node_modules/sonarqube-scanner/dist/bin/sonar-scanner -Dsonar.host.url=http://104.41.231.251:9000 -Dsonar.projectKey=react-ui-boilerplate -Dsonar.projectName=reactuiboilerplate -Dsonar.sources=src -Dsonar.javascript.lcov.reportPaths=test/unit/reports/coverage/lcov.info -Dsonar.exclusions=test/unit/reports/status/index.html",
+		"sonarqube-scanner": "node_modules/sonarqube-scanner/dist/bin/sonar-scanner -Dsonar.host.url=http://40.127.167.61:9000 -Dsonar.projectKey=react-ui-boilerplate -Dsonar.projectName=reactuiboilerplate -Dsonar.sources=src -Dsonar.javascript.lcov.reportPaths=test/unit/reports/coverage/lcov.info -Dsonar.exclusions=test/unit/reports/status/index.html",
 		"uifunctional-test": "npm install -g protractor && webdriver-manager update && protractor test/functional/config.js ; node test/functional/json-to-html.js",
 		"ui-perf-test-dev": "/usr/src/app/bin/sitespeed.js --config=test/performance/config.json test/performance/urls-dev.txt",
 		"ui-perf-test-qa": "/usr/src/app/bin/sitespeed.js --config=test/performance/config.json test/performance/urls-qa.txt",
