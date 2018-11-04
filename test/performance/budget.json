@@ -1,10 +1,5 @@
 {
-	"browsertime.pageSummary": [
-		{
-			"metric":"statistics.visualMetrics.SpeedIndex",
-			"max":1000
-		}
-	],
+	"browsertime.pageSummary": [],
 	"coach.pageSummary": [],
 	"pagexray.pageSummary": [
 		{
@@ -12,20 +7,16 @@
 			"max": 0
 		},
 		{
-			"metric": "statistics.timings.SpeedIndex",
-			"max": 3000
-		},
-		{
 			"metric": "contentTypes.css.requests",
-			"max": 10
+			"max": 0
 		},
 		{
 			"metric": "contentTypes.javascript.requests",
-			"max": 10
+			"max": 2
 		},
 		{
 			"metric": "contentTypes.image.requests",
-			"max": 120
+			"max": 0
 		}
 	]
 }
