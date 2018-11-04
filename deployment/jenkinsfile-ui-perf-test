@@ -6,7 +6,7 @@ podTemplate(
 	containers: [
 		containerTemplate(
 			name: label,
-			image: 'neugcstieacr01.azurecr.io/baseimg/vcc-gcs-ui-perf-test-bionic:v1',
+			image: 'neugcstieacr01.azurecr.io/baseimg/vcc-gcs-ui-perf-test-bionic:v2',
 			command: 'cat',
 			ttyEnabled: true,
 			alwaysPullImage: true
