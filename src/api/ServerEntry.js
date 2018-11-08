@@ -100,7 +100,7 @@ axiosCaching('');
  */
 const healthInfoUrl = '/reactuiboilerplate/v1/health';
 app.get(healthInfoUrl, function(req, res) {
-	var responseData = { 'status': 'UP', 'healthInfo': { 'status': 'UP', 'App Name': 'react-ui-boilerplate:v2' } };
+	var responseData = { 'status': 'UP', 'healthInfo': { 'status': 'UP', 'App Name': 'react-ui-boilerplate:v3' } };
 	res.send(responseData);
 });
 
