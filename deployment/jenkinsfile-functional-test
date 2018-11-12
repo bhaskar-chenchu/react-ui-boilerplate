@@ -38,7 +38,7 @@ podTemplate(
 			stage ('Configure') {
 				dir('reactuiboilerplate') {
 					try {
-                        sh "ENV_FUNCTIONAL_TEST_URL=https://tie-gcs-aks-dev.northeurope.cloudapp.azure.com npm run uifunctional-test"
+                        sh "ENV_FUNCTIONAL_TEST_URL=http://tie-gcs-dev-cloud.northeurope.cloudapp.azure.com npm run uifunctional-test"
                     } catch (exc) {
                         currentBuild.result = "FAILURE"
                         throw exc
